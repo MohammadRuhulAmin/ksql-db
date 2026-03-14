@@ -1,0 +1,25 @@
+services:
+  ksqldb-server:
+    image: confluentinc/ksqldb-server:latest
+    container_name: ksqldb-server
+    ports:
+      - "8088:8088"
+    environment:
+      KSQL_BOOTSTRAP_SERVERS: kafka:9092
+      KSQL_HOST_NAME: ksqldb-server
+      KSQL_LISTENERS: http://0.0.0.0:8088
+      KSQL_SERVICE_ID: ksqldb_service_
+      # SASL settings uncomment if needed
+      KSQL_SECURITY_PROTOCOL: SASL_PLAINTEXT
+      KSQL_SASL_MECHANISM: PLAIN
+      KSQL_SASL_USERNAME: dashboard
+      KSQL_SASL_PASSWORD: $$xdsx12!!@@33Xsd
+      KSQL_OPTS: "-Djava.security.auth.login.config=/etc/ksqldb/ksqldb_jaas.conf"
+    volumes:
+      - ./ksqldb_jaas.conf:/etc/ksqldb/ksqldb_jaas.conf:ro
+    networks:
+      - confluent-kafka-553_default
+
+networks:
+  confluent-kafka-553_default:
+    external: true
